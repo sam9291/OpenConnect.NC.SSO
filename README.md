@@ -1,0 +1,30 @@
+# openconnect nc sso
+
+This small program is to help out connecting to Juniper Network Connect (nc) using SSO through browser login. The implementation uses Playwright to launch a browser allowing you to go through your SSO authentication flow and to extract the authentication cookie token used with openconnect to start the VPN connection.
+
+When running the application, if you have all dependencies installed, a browser will open with the provided VPN server url. To connect to the VPN, use the following steps:
+
+1. Complete your SSO login workflow and keep the browser open
+2. Go back to the terminal and press [enter]
+3. The browser will be closed and the VPN connection will start using openconnect
+4. To stop the VPN connection, press [ctrl + c]
+
+## Dependencies
+
+Before running this application, you will need to install the openconnect CLI and a chromium based or firefox browser.
+
+## Getting started
+
+If you clone this repository and have the dotnet cli installed, you can simply run in the src directory:
+
+```shell
+dotnet run <VPN url to connect>
+```
+
+If you use the published executable.
+
+```shell
+OpenConnect.NC.SSO <VPN url to connect>
+```
+
+Once connected, leave your terminal session open to keep the VPN open or press [ctrl + c] to stop the connection.
