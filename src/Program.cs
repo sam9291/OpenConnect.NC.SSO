@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using OpenConnect.NC.SSO;
+
 var cancellationTask = GetConsoleCancelKeyPressTask();
 
 var openconnectIsInstalled = !string.IsNullOrEmpty(ShellHelper.Bash("which openconnect"));
@@ -22,10 +23,19 @@ if (!vpnServer.StartsWith("https://", StringComparison.OrdinalIgnoreCase)){
     vpnServer = "https://" + vpnServer;
 }
 
-Console.WriteLine($"Opening browser to connect to VPN Server {vpnServer}. Please login using your usual SSO process.");
+Console.WriteLine("Installing playwright dependencies");
+
+var exitCode = Microsoft.Playwright.Program.Main(["install-deps"]);
+
+if (exitCode != 0)
+{
+    Console.WriteLine("Failed to install dependencies");
+    Environment.Exit(exitCode);
+}
 
 using var playwright = await Playwright.CreateAsync();
 
+Console.WriteLine($"Opening browser to connect to VPN Server {vpnServer}. Please login using your usual SSO process.");
 var browser = await BrowserDetector.DetectAndLaunchBrowser(playwright);
 var page = await browser.NewPageAsync();
 await page.GotoAsync(vpnServer);
