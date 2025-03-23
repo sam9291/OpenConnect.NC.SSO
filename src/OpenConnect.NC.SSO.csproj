@@ -8,6 +8,8 @@
         <PublishSingleFile>true</PublishSingleFile>
         <SelfContained>true</SelfContained>
         <PlaywrightPlatform>linux</PlaywrightPlatform>
+        <DebugType>None</DebugType>
+        <DebugSymbols>False</DebugSymbols>
     </PropertyGroup>
 
     <ItemGroup>
