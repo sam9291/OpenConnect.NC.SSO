@@ -1,0 +1,39 @@
+name: Build and Publish .NET Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the application
+        run: dotnet build --configuration Release
+
+      - name: Publish the application
+        run: dotnet publish --configuration Release --output ./publish
+
+      - name: Zip the published files
+        run: |
+          cd ./publish
+          tar -czvf OpenConnect.NC.SSO-linux-x64.tar.gz .
+
+      - name: Upload the compressed application
+        uses: actions/upload-artifact@v3
+        with:
+          name: published-app
+          path: ./OpenConnect.NC.SSO-linux-x64.tar.gz
