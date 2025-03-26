@@ -49,6 +49,12 @@ jobs:
           cd ./publish-win-x64
           zip -r OpenConnect.NC.SSO-win-x64.zip ./
 
+      - name: Compress the published files (osx-arm64)
+        working-directory: src
+        run: |
+          cd ./publish-osx-arm64
+          tar czvf OpenConnect.NC.SSO-osx-arm64.tar.gz ./*
+
       - name: Upload the compressed application (linux-x64)
         uses: actions/upload-artifact@v4.6.2
         with:
@@ -58,5 +64,11 @@ jobs:
       - name: Upload the compressed application (win-x64)
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: OpenConnect.NC.SSO-win-x64.tar.gz
+          name: OpenConnect.NC.SSO-win-x64.zip
           path: ./src/publish-win-x64/OpenConnect.NC.SSO-win-x64.zip
+
+      - name: Upload the compressed application (osx-arm64)
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: OpenConnect.NC.SSO-osx-arm64.zip
+          path: ./src/publish-osx-arm64/OpenConnect.NC.SSO-osx-arm64.zip

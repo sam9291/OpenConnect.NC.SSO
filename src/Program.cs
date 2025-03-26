@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Runtime.InteropServices;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
 using OpenConnect.NC.SSO;
 
@@ -16,10 +17,7 @@ if(!options.IsValid())
     return;
 }
 
-var openconnectIsInstalled = !string.IsNullOrEmpty(ShellHelper.Bash("which openconnect"));
-
-if (!openconnectIsInstalled){
-    Console.WriteLine("Detected openconnect is not installed. Please install it before using this program.");
+if(!DependenciesValidator.AreDependenciesInstalled()){
     return;
 }
 
@@ -67,7 +65,18 @@ if (cookie is not null)
         additionalArguments += $" {options.AdditionalArguments}";
     }
 
-    ShellHelper.Bash($"sudo openconnect --protocol=nc --cookie=\"DSID={cookie.Value}\" {vpnServer} {additionalArguments}", true);
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)){
+            ShellHelper.Bash($"sudo openconnect --protocol=nc --cookie=\"DSID={cookie.Value}\" {vpnServer} {additionalArguments}", true);
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            ShellHelper.Cmd($"openconnect.exe --protocol=nc --cookie=\"DSID={cookie.Value}\" {vpnServer} {additionalArguments}", true);
+        }
+        else
+        {
+            throw new NotSupportedException($"{RuntimeInformation.OSDescription} is not supported by this application");
+        }
+
     await cancellationTask;
 }
 else
