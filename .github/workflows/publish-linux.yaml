@@ -30,11 +30,11 @@ jobs:
         run: dotnet publish --configuration Release --output ./publish
         working-directory: src
 
-      - name: Zip the published files
+      - name: Compress the published files
         working-directory: src
         run: |
           cd ./publish
-          tar -czvf OpenConnect.NC.SSO-linux-x64.tar.gz .
+          tar -czvf OpenConnect.NC.SSO-linux-x64.tar.gz ./
 
       - name: Upload the compressed application
         uses: actions/upload-artifact@v4.6.2
