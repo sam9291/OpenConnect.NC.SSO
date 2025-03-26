@@ -33,7 +33,7 @@ jobs:
           tar -czvf OpenConnect.NC.SSO-linux-x64.tar.gz .
 
       - name: Upload the compressed application
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: published-app
           path: ./OpenConnect.NC.SSO-linux-x64.tar.gz
