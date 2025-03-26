@@ -20,14 +20,18 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore
+        working-directory: src
 
       - name: Build the application
         run: dotnet build --configuration Release
+        working-directory: src
 
       - name: Publish the application
         run: dotnet publish --configuration Release --output ./publish
+        working-directory: src
 
       - name: Zip the published files
+        working-directory: src
         run: |
           cd ./publish
           tar -czvf OpenConnect.NC.SSO-linux-x64.tar.gz .
@@ -35,5 +39,5 @@ jobs:
       - name: Upload the compressed application
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: published-app
-          path: ./OpenConnect.NC.SSO-linux-x64.tar.gz
+          name: OpenConnect.NC.SSO-linux-x64.tar.gz
+          path: ./src/OpenConnect.NC.SSO-linux-x64.tar.gz
