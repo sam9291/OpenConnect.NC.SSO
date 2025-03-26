@@ -41,7 +41,7 @@ jobs:
         working-directory: src
         run: |
           cd ./publish-linux-x64
-          tar -czvf OpenConnect.NC.SSO-linux-x64.tar.gz ./
+          tar czvf OpenConnect.NC.SSO-linux-x64.tar.gz ./*
 
       - name: Compress the published files (win-x64)
         working-directory: src
