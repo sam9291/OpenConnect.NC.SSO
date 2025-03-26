@@ -21,17 +21,18 @@ sudo apt-get install network-manager-openconnect
 
 You can install [gui.openconnect-vpn.net](https://gui.openconnect-vpn.net/) which includes openconnect.exe for windows. Make sure to add the installed directory to your path so you can run openconnect.exe in the CMD.
 
-## Getting started
-
-If you clone this repository and have the dotnet cli installed, you can simply run in the src directory:
-
 ### On macOS
 
 You can install openconnect using homebrew:
 
 ```shell
+
 brew install openconnect
 ```
+
+## Getting started
+
+If you clone this repository and have the dotnet cli installed, you can simply run in the src directory:
 
 ```shell
 dotnet run --VpnServer <VPN url to connect>
