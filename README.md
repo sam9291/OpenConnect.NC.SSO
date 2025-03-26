@@ -25,6 +25,14 @@ You can install [gui.openconnect-vpn.net](https://gui.openconnect-vpn.net/) whic
 
 If you clone this repository and have the dotnet cli installed, you can simply run in the src directory:
 
+### On macOS
+
+You can install openconnect using homebrew:
+
+```shell
+brew install openconnect
+```
+
 ```shell
 dotnet run --VpnServer <VPN url to connect>
 ```
