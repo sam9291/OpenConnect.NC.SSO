@@ -13,18 +13,32 @@ When running the application, if you have all dependencies installed, a browser 
 
 Before running this application, you will need to install the openconnect CLI and a chromium based or firefox browser.
 
+```shell
+sudo apt-get install network-manager-openconnect 
+```
+
 ## Getting started
 
 If you clone this repository and have the dotnet cli installed, you can simply run in the src directory:
 
 ```shell
-dotnet run <VPN url to connect>
+dotnet run --VpnServer <VPN url to connect>
 ```
 
 If you use the published executable.
 
 ```shell
-OpenConnect.NC.SSO <VPN url to connect>
+OpenConnect.NC.SSO --VpnServer <VPN url to connect>
 ```
 
 Once connected, leave your terminal session open to keep the VPN open or press [ctrl + c] to stop the connection.
+
+## Advanced options
+
+The application supports the following arguments:
+
+- `--VpnServer`: URL of the VPN server to connect to
+- `--BrowserPath`: [Optional] path of the browser to use. When not provided, this app will attempt to look for the following browsers in order: `microsoft-edge`, `google-chrome-stable`, `chrome`, `chromium`, `firefox`
+- `--BrowserType`: [Required when specifying BrowserPath] `Chromium` or `Firefox`
+- `--Script`: [Optional] openconnect script argument
+- `--AdditionalArguments`: [Optional] any additional openconnect arguments to append when connecting
