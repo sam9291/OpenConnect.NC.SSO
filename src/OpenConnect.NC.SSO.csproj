@@ -7,7 +7,7 @@
         <Nullable>enable</Nullable>
         <PublishSingleFile>true</PublishSingleFile>
         <SelfContained>true</SelfContained>
-        <PlaywrightPlatform>linux</PlaywrightPlatform>
+        <PlaywrightPlatform>linux,windows</PlaywrightPlatform>
         <DebugType>None</DebugType>
         <DebugSymbols>False</DebugSymbols>
     </PropertyGroup>

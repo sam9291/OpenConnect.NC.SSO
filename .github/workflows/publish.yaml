@@ -1,0 +1,62 @@
+name: Build and Publish .NET Application
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: src
+
+      - name: Build the application
+        run: dotnet build --configuration Release
+        working-directory: src
+
+      - name: Publish the application (linux-x64)
+        run: dotnet publish --runtime linux-x64 --configuration Release --output ./publish-linux-x64
+        working-directory: src
+
+      - name: Publish the application (win-x64)
+        run: dotnet publish --runtime win-x64 --configuration Release --output ./publish-win-x64
+        working-directory: src
+
+      - name: Compress the published files (linux-x64)
+        working-directory: src
+        run: |
+          cd ./publish-linux-x64
+          tar -czvf OpenConnect.NC.SSO-linux-x64.tar.gz ./
+
+      - name: Compress the published files (win-x64)
+        working-directory: src
+        run: |
+          cd ./publish-win-x64
+          zip -r OpenConnect.NC.SSO-win-x64.zip ./
+
+      - name: Upload the compressed application (linux-x64)
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: OpenConnect.NC.SSO-linux-x64.tar.gz
+          path: ./src/publish-linux-x64/OpenConnect.NC.SSO-linux-x64.tar.gz
+
+      - name: Upload the compressed application (win-x64)
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: OpenConnect.NC.SSO-win-x64.tar.gz
+          path: ./src/publish-win-x64/OpenConnect.NC.SSO-win-x64.zip
