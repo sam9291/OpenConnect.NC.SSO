@@ -1,7 +1,20 @@
-﻿using Microsoft.Playwright;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Playwright;
 using OpenConnect.NC.SSO;
 
 var cancellationTask = GetConsoleCancelKeyPressTask();
+
+IConfiguration configuration = new ConfigurationBuilder()
+    .AddCommandLine(args)
+    .Build();
+
+var options = new CommandLineOptions();
+configuration.Bind(options);
+
+if(!options.IsValid())
+{
+    return;
+}
 
 var openconnectIsInstalled = !string.IsNullOrEmpty(ShellHelper.Bash("which openconnect"));
 
@@ -12,12 +25,7 @@ if (!openconnectIsInstalled){
 
 Console.WriteLine("Starting openconnect nc sso");
 
-if(args.Length != 1){
-    Console.WriteLine("Please provide the VPN server to connect. Ex: openconnect.nc.sso <vpn server url>");
-    return;
-}
-
-var vpnServer = args[0];
+var vpnServer = options.VpnServer;
 
 if (!vpnServer.StartsWith("https://", StringComparison.OrdinalIgnoreCase)){
     vpnServer = "https://" + vpnServer;
@@ -26,7 +34,7 @@ if (!vpnServer.StartsWith("https://", StringComparison.OrdinalIgnoreCase)){
 using var playwright = await Playwright.CreateAsync();
 
 Console.WriteLine($"Opening browser to connect to VPN Server {vpnServer}. Please login using your usual SSO process.");
-var browser = await BrowserDetector.DetectAndLaunchBrowser(playwright);
+var browser = await BrowserDetector.DetectAndLaunchBrowser(playwright, options);
 var page = await browser.NewPageAsync();
 await page.GotoAsync(vpnServer);
 var context = browser.Contexts.Single();
@@ -48,7 +56,18 @@ if (cookie is not null)
     Console.WriteLine("Detected VPN session cookie for authentication successfully. Starting VPN session...");
     Console.WriteLine("Press [ctrl + c] to stop VPN");
     await browser.CloseAsync();
-    ShellHelper.Bash($"sudo openconnect --protocol=nc --cookie=\"DSID={cookie.Value}\" {vpnServer}", true);
+    await browser.DisposeAsync();
+
+    var additionalArguments = "";
+    if (options.Script is not null){
+        additionalArguments += $"--script {options.Script}";
+    }
+
+    if (options.AdditionalArguments is not null){
+        additionalArguments += $" {options.AdditionalArguments}";
+    }
+
+    ShellHelper.Bash($"sudo openconnect --protocol=nc --cookie=\"DSID={cookie.Value}\" {vpnServer} {additionalArguments}", true);
     await cancellationTask;
 }
 else
