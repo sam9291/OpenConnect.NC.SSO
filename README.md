@@ -17,6 +17,10 @@ Before running this application, you will need to install the openconnect CLI an
 sudo apt-get install network-manager-openconnect 
 ```
 
+### On Windows
+
+You can install [gui.openconnect-vpn.net](https://gui.openconnect-vpn.net/) which includes openconnect.exe for windows. Make sure to add the installed directory to your path so you can run openconnect.exe in the CMD.
+
 ## Getting started
 
 If you clone this repository and have the dotnet cli installed, you can simply run in the src directory:

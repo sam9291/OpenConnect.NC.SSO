@@ -46,15 +46,18 @@ jobs:
         with:
           name: OpenConnect.NC.SSO-linux-x64
           path: ./src/OpenConnect.NC.SSO-linux-x64
+          include-hidden-files: true
 
       - name: Upload the compressed application (win-x64)
         uses: actions/upload-artifact@v4.6.2
         with:
           name: OpenConnect.NC.SSO-win-x64
           path: ./src/OpenConnect.NC.SSO-win-x64
+          include-hidden-files: true
 
       - name: Upload the compressed application (osx-arm64)
         uses: actions/upload-artifact@v4.6.2
         with:
           name: OpenConnect.NC.SSO-osx-arm64
           path: ./src/OpenConnect.NC.SSO-osx-arm64
+          include-hidden-files: true
