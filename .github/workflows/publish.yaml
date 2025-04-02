@@ -81,10 +81,11 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2.2.1
         with:
+          fail_on_unmatched_files: true
           files: |
-            OpenConnect.NC.SSO-linux-x64.zip
-            OpenConnect.NC.SSO-osx-arm64.zip
-            OpenConnect.NC.SSO-win-x64.zip
+            ${{ GITHUB_WORKSPACE }}/OpenConnect.NC.SSO-linux-x64.zip
+            ${{ GITHUB_WORKSPACE }}/OpenConnect.NC.SSO-osx-arm64.zip
+            ${{ GITHUB_WORKSPACE }}/OpenConnect.NC.SSO-win-x64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.CREATE_RELEASE_TOKEN }}
 
