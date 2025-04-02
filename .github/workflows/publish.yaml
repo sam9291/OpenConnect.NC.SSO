@@ -2,8 +2,8 @@ name: Build and Publish .NET Application
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'  # Trigger this action only when a tag starts with "v"
 
 jobs:
   build:
@@ -58,3 +58,33 @@ jobs:
           name: OpenConnect.NC.SSO-osx-arm64
           path: ./src/OpenConnect.NC.SSO-osx-arm64
           include-hidden-files: true
+
+      - name: Download Artifact (linux-x64)
+        uses: actions/download-artifact@v3
+        with:
+          name: OpenConnect.NC.SSO-linux-x64
+
+      - name: Download Artifact (osx-arm64)
+        uses: actions/download-artifact@v3
+        with:
+          name: OpenConnect.NC.SSO-osx-arm64
+
+      - name: Download Artifact (win-x64)
+        uses: actions/download-artifact@v3
+        with:
+          name: OpenConnect.NC.SSO-win-x64
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: ghcr.io/softprops/action-gh-release@v1
+        with:
+          files: |
+            OpenConnect.NC.SSO-linux-x64.zip
+            OpenConnect.NC.SSO-osx-arm64.zip
+            OpenConnect.NC.SSO-win-x64.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Release Notes
+        run: |
+          echo "Release for $GITHUB_REF created!"
