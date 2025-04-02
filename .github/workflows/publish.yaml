@@ -3,7 +3,7 @@ name: Build and Publish .NET Application
 on:
   push:
     tags:
-      - 'v*'  # Trigger this action only when a tag starts with "v"
+      - "v*.*.*"
 
 jobs:
   build:
@@ -76,7 +76,7 @@ jobs:
 
       - name: Create GitHub Release
         id: create_release
-        uses: ghcr.io/softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2.2.1
         with:
           files: |
             OpenConnect.NC.SSO-linux-x64.zip
