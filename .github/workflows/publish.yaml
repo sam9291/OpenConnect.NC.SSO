@@ -38,44 +38,12 @@ jobs:
         run: dotnet publish --runtime osx-arm64 --configuration Release --output ./OpenConnect.NC.SSO-osx-arm64
         working-directory: src
 
-      - name: Upload the compressed application (linux-x64)
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: OpenConnect.NC.SSO-linux-x64
-          path: ./src/OpenConnect.NC.SSO-linux-x64
-          include-hidden-files: true
-
-      - name: Upload the compressed application (win-x64)
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: OpenConnect.NC.SSO-win-x64
-          path: ./src/OpenConnect.NC.SSO-win-x64
-          include-hidden-files: true
-
-      - name: Upload the compressed application (osx-arm64)
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: OpenConnect.NC.SSO-osx-arm64
-          path: ./src/OpenConnect.NC.SSO-osx-arm64
-          include-hidden-files: true
-
-      - name: Download Artifact (linux-x64)
-        uses: actions/download-artifact@v4
-        with:
-          name: OpenConnect.NC.SSO-linux-x64
-          path: OpenConnect.NC.SSO-linux-x64.zip
-
-      - name: Download Artifact (osx-arm64)
-        uses: actions/download-artifact@v4
-        with:
-          name: OpenConnect.NC.SSO-osx-arm64
-          path: OpenConnect.NC.SSO-osx-arm64.zip
-
-      - name: Download Artifact (win-x64)
-        uses: actions/download-artifact@v4
-        with:
-          name: OpenConnect.NC.SSO-win-x64
-          path: OpenConnect.NC.SSO-win-x64.zip
+      - name: Compress artifacts
+        run: |
+          tar czvf OpenConnect.NC.SSO-linux-x64.tar.gz ./src/OpenConnect.NC.SSO-linux-x64/
+          tar czvf OpenConnect.NC.SSO-osx-arm64.tar.gz ./src/OpenConnect.NC.SSO-osx-arm64/
+          zip -r OpenConnect.NC.SSO-win-x64.zip ./src/OpenConnect.NC.SSO-win-x65/. ./src/OpenConnect.NC.SSO-win-x64/
+          ls
 
       - name: Create GitHub Release
         id: create_release
@@ -83,9 +51,9 @@ jobs:
         with:
           fail_on_unmatched_files: true
           files: |
-            $GITHUB_WORKSPACE/OpenConnect.NC.SSO-linux-x64.zip
-            $GITHUB_WORKSPACE/OpenConnect.NC.SSO-osx-arm64.zip
-            $GITHUB_WORKSPACE/OpenConnect.NC.SSO-win-x64.zip
+            ./OpenConnect.NC.SSO-linux-x64.tar.gz
+            ./OpenConnect.NC.SSO-osx-arm64.tar.gz
+            ./OpenConnect.NC.SSO-win-x64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.CREATE_RELEASE_TOKEN }}
 
