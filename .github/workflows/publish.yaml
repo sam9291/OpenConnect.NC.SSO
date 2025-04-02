@@ -60,17 +60,17 @@ jobs:
           include-hidden-files: true
 
       - name: Download Artifact (linux-x64)
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: OpenConnect.NC.SSO-linux-x64
 
       - name: Download Artifact (osx-arm64)
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: OpenConnect.NC.SSO-osx-arm64
 
       - name: Download Artifact (win-x64)
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: OpenConnect.NC.SSO-win-x64
 
