@@ -83,9 +83,9 @@ jobs:
         with:
           fail_on_unmatched_files: true
           files: |
-            ${{ GITHUB_WORKSPACE }}/OpenConnect.NC.SSO-linux-x64.zip
-            ${{ GITHUB_WORKSPACE }}/OpenConnect.NC.SSO-osx-arm64.zip
-            ${{ GITHUB_WORKSPACE }}/OpenConnect.NC.SSO-win-x64.zip
+            $GITHUB_WORKSPACE/OpenConnect.NC.SSO-linux-x64.zip
+            $GITHUB_WORKSPACE/OpenConnect.NC.SSO-osx-arm64.zip
+            $GITHUB_WORKSPACE/OpenConnect.NC.SSO-win-x64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.CREATE_RELEASE_TOKEN }}
 
