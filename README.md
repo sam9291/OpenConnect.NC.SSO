@@ -5,9 +5,8 @@ This small program is to help out connecting to Juniper Network Connect (nc) usi
 When running the application, if you have all dependencies installed, a browser will open with the provided VPN server url. To connect to the VPN, use the following steps:
 
 1. Complete your SSO login workflow and keep the browser open
-2. Go back to the terminal and press [enter]
-3. The browser will be closed and the VPN connection will start using openconnect
-4. To stop the VPN connection, press [ctrl + c]
+2. The browser will be closed automatically when the session cookie has been detected and the VPN connection will start using openconnect
+3. To stop the VPN connection, press [ctrl + c]
 
 ## Dependencies
 
