@@ -37,17 +37,21 @@ var page = await browser.NewPageAsync();
 await page.GotoAsync(vpnServer);
 var context = browser.Contexts.Single();
 
-Console.WriteLine("When SSO login is complete in the browser, press [enter] in this terminal to connect using openconnect.");
-while(Console.ReadKey().Key != ConsoleKey.Enter){
+Console.WriteLine("The browser will close when session is detected automatically or press [ctrl+c] in this terminal to cancel.");
+
+const string SessionCookieName = "DSID";
+BrowserContextCookiesResult? cookie = null;
+
+while(!cancellationTask.IsCompleted && cookie is null)
+{
+    var cookies = await context.CookiesAsync();
+    cookie = cookies.FirstOrDefault(x => x.Name == SessionCookieName);
+    await Task.Delay(300);
 }
 
 if(cancellationTask.IsCompleted){
     return;
 }
-
-const string SessionCookieName = "DSID";
-var cookies = await context.CookiesAsync();
-var cookie = cookies.FirstOrDefault(x => x.Name == SessionCookieName);
 
 if (cookie is not null)
 {
